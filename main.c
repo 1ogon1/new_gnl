@@ -1,10 +1,10 @@
 #include "get_next_line.h"
 
-static void	ft_write_line(char *str, char **line, int i)
+static void	ft_write_line(char **str, char **line, int i)
 {
-	while (str[i] != '\n' || str[i] != '\0')
+	while (*str[i] != '\n')
 	{
-		*line[i] = str[i];
+		*line[i] = *str[i];
 		i++;
 	}
 }
@@ -19,9 +19,12 @@ static void	ft_first_line(const int fd, char **line, char **str)
 	while ((ret = read(fd, buff, BUFF_SIZE)) > 0)
 	{
 		buff[ret] = '\0';
-		*str = ft_strdup(buff);
+		if (!*str)
+			*str = ft_strdup(buff);
+		else
+			*str = ft_strjoin(*str, buff);
 		if (ft_strrchr(*str, '\n'))
-			ft_write_line(*str, line, 0);
+			ft_write_line(str, line, 0);
 		free(buff);
 	}
 }
