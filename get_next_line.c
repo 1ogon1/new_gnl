@@ -49,7 +49,7 @@ int 	get_next_line(const int fd, char **line)
 	char		buff[BUFF_SIZE + 1];
 	int			ret;
 
-	if (fd < 0)
+	if (fd < 0 || !read(fd, buff, 0))
 		return (-1);
 	if (line)
 		free(*line);
